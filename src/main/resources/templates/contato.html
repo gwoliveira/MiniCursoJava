@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>Spring Security Example</title>
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/login.css" rel="stylesheet" />
+</head>
+<body>
+	<div class="container">
+		<h1 th:inline="text">Olá [[${#httpServletRequest.remoteUser}]]!</h1>
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Logout" />
+		</form>
+		<div class=" row">
+
+			<form th:action="@{/contato}" method="post">
+				<div class="form-group">
+					<label>Nome</label> <input type="hidden" th:value="${contato.id}"
+						name="id" /> <input type="text" th:value="${contato.nome}"
+						class="form-control" placeholder="Nome" name="nome" /> <input
+						type="text" th:value="${contato.telefone}" class="form-control"
+						placeholder="Telefone" name="telefone" />
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+					<th>Telefone</th>
+					<th>Remover</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="contato:${contatos}">
+					<td th:text="${contato.id}"></td>
+					<td th:text="${contato.nome}"></td>
+					<td th:text="${contato.telefone}"></td>
+					<td><a th:href="@{/contato/del(id=${contato.id})}"
+						class="btn btn-danger"><span
+							class="glyphicon glyphicon-remove"></span></a></td>
+					<td><a th:href="@{/contato(id=${contato.id})}"
+						class="btn btn-primary"><span class="glyphicon glyphicon-edit"></span></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- /container -->
+</body>
+</html>
